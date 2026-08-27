@@ -220,7 +220,7 @@
 <div class="container">
     <div id="welcome-box">
         <h1>Kuis Tebak Isyarat Semaphore</h1>
-        <div class="subtitle">Uji kemampuan pramuka kamu sesuai standar referensi! 25 soal acak dalam waktu 2 menit.</div>
+        <div class="subtitle">Uji kemampuan pramuka kamu sesuai standar referensi buku SKU! 25 soal acak dalam waktu 2 menit.</div>
         <button class="start-btn" onclick="startQuiz()">Mulai Kuis Sekarang</button>
     </div>
 
@@ -266,33 +266,34 @@
         11: 240, 12: 270
     };
 
+    // Data Master disesuaikan dengan Buku Panduan / SKU Pramuka (7 Kunci Semaphore)
     const masterSemaphore = [
-        { rArm: 6, lArm: 6, q: "Huruf A", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf D"], ans: 0 },
-        { rArm: 7, lArm: 5, q: "Huruf B", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf E"], ans: 1 },
-        { rArm: 6, lArm: 4, q: "Huruf C", opts: ["Huruf B", "Huruf C", "Huruf D", "Huruf F"], ans: 1 },
-        { rArm: 6, lArm: 3, q: "Huruf D", opts: ["Huruf A", "Huruf C", "Huruf D", "Huruf E"], ans: 2 },
-        { rArm: 6, lArm: 2, q: "Huruf E", opts: ["Huruf E", "Huruf F", "Huruf G", "Huruf H"], ans: 0 },
-        { rArm: 6, lArm: 1, q: "Huruf F", opts: ["Huruf D", "Huruf E", "Huruf F", "Huruf G"], ans: 2 },
-        { rArm: 6, lArm: 11, q: "Huruf G", opts: ["Huruf F", "Huruf G", "Huruf H", "Huruf I"], ans: 1 },
-        { rArm: 7, lArm: 3, q: "Huruf H", opts: ["Huruf H", "Huruf I", "Huruf J", "Huruf K"], ans: 0 },
-        { rArm: 5, lArm: 10, q: "Huruf I", opts: ["Huruf G", "Huruf H", "Huruf I", "Huruf J"], ans: 2 },
-        { rArm: 9, lArm: 1, q: "Huruf J", opts: ["Huruf J", "Huruf K", "Huruf L", "Huruf M"], ans: 0 },
-        { rArm: 12, lArm: 2, q: "Huruf K", opts: ["Huruf K", "Huruf L", "Huruf M", "Huruf N"], ans: 0 },
-        { rArm: 12, lArm: 3, q: "Huruf L", opts: ["Huruf K", "Huruf L", "Huruf M", "Huruf N"], ans: 1 },
-        { rArm: 12, lArm: 4, q: "Huruf M", opts: ["Huruf L", "Huruf M", "Huruf N", "Huruf O"], ans: 1 },
-        { rArm: 12, lArm: 5, q: "Huruf N", opts: ["Huruf M", "Huruf N", "Huruf O", "Huruf P"], ans: 1 },
-        { rArm: 12, lArm: 7, q: "Huruf O", opts: ["Huruf N", "Huruf O", "Huruf P", "Huruf Q"], ans: 1 },
-        { rArm: 12, lArm: 8, q: "Huruf P", opts: ["Huruf O", "Huruf P", "Huruf Q", "Huruf R"], ans: 1 },
-        { rArm: 12, lArm: 9, q: "Huruf Q", opts: ["Huruf P", "Huruf Q", "Huruf R", "Huruf S"], ans: 1 },
-        { rArm: 12, lArm: 10, q: "Huruf R", opts: ["Huruf Q", "Huruf R", "Huruf S", "Huruf T"], ans: 1 },
-        { rArm: 1, lArm: 3, q: "Huruf S", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 0 },
-        { rArm: 1, lArm: 4, q: "Huruf T", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 1 },
-        { rArm: 1, lArm: 5, q: "Huruf U", opts: ["Huruf T", "Huruf U", "Huruf V", "Huruf W"], ans: 1 },
-        { rArm: 9, lArm: 5, q: "Huruf V", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 0 },
-        { rArm: 11, lArm: 8, q: "Huruf W", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 1 },
-        { rArm: 1, lArm: 9, q: "Huruf X", opts: ["Huruf W", "Huruf X", "Huruf Y", "Huruf Z"], ans: 1 },
-        { rArm: 2, lArm: 7, q: "Huruf Y", opts: ["Huruf X", "Huruf Y", "Huruf Z", "Huruf A"], ans: 1 },
-        { rArm: 11, lArm: 4, q: "Huruf Z", opts: ["Huruf Y", "Huruf Z", "Huruf B", "Huruf C"], ans: 1 }
+        { rArm: 1, lArm: 2, q: "Huruf A", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf D"], ans: 0 },
+        { rArm: 1, lArm: 3, q: "Huruf B", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf E"], ans: 1 },
+        { rArm: 1, lArm: 4, q: "Huruf C", opts: ["Huruf B", "Huruf C", "Huruf D", "Huruf F"], ans: 1 },
+        { rArm: 1, lArm: 5, q: "Huruf D", opts: ["Huruf A", "Huruf C", "Huruf D", "Huruf E"], ans: 2 },
+        { rArm: 1, lArm: 6, q: "Huruf E", opts: ["Huruf E", "Huruf F", "Huruf G", "Huruf H"], ans: 0 },
+        { rArm: 1, lArm: 7, q: "Huruf F", opts: ["Huruf D", "Huruf E", "Huruf F", "Huruf G"], ans: 2 },
+        { rArm: 1, lArm: 8, q: "Huruf G", opts: ["Huruf F", "Huruf G", "Huruf H", "Huruf I"], ans: 1 },
+        { rArm: 2, lArm: 3, q: "Huruf H", opts: ["Huruf H", "Huruf I", "Huruf J", "Huruf K"], ans: 0 },
+        { rArm: 2, lArm: 4, q: "Huruf I", opts: ["Huruf G", "Huruf H", "Huruf I", "Huruf J"], ans: 2 },
+        { rArm: 2, lArm: 5, q: "Huruf K", opts: ["Huruf J", "Huruf K", "Huruf L", "Huruf M"], ans: 1 }, // Kunci 2 (2 & 5)
+        { rArm: 2, lArm: 6, q: "Huruf L", opts: ["Huruf K", "Huruf L", "Huruf M", "Huruf N"], ans: 1 },
+        { rArm: 2, lArm: 7, q: "Huruf M", opts: ["Huruf L", "Huruf M", "Huruf N", "Huruf O"], ans: 1 },
+        { rArm: 2, lArm: 8, q: "Huruf N", opts: ["Huruf M", "Huruf N", "Huruf O", "Huruf P"], ans: 1 },
+        { rArm: 3, lArm: 4, q: "Huruf O", opts: ["Huruf N", "Huruf O", "Huruf P", "Huruf Q"], ans: 1 },
+        { rArm: 3, lArm: 5, q: "Huruf P", opts: ["Huruf O", "Huruf P", "Huruf Q", "Huruf R"], ans: 1 },
+        { rArm: 3, lArm: 6, q: "Huruf Q", opts: ["Huruf P", "Huruf Q", "Huruf R", "Huruf S"], ans: 1 },
+        { rArm: 3, lArm: 7, q: "Huruf R", opts: ["Huruf Q", "Huruf R", "Huruf S", "Huruf T"], ans: 1 },
+        { rArm: 3, lArm: 8, q: "Huruf S", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 0 },
+        { rArm: 4, lArm: 5, q: "Huruf T", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 1 },
+        { rArm: 4, lArm: 6, q: "Huruf U", opts: ["Huruf T", "Huruf U", "Huruf V", "Huruf W"], ans: 1 },
+        { rArm: 4, lArm: 7, q: "Huruf Y", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 3 }, // Perbaikan posisi Y (4 & 7)
+        { rArm: 5, lArm: 6, q: "Huruf V", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 0 },
+        { rArm: 5, lArm: 7, q: "Huruf J", opts: ["Huruf I", "Huruf J", "Huruf K", "Huruf L"], ans: 1 },  // Perbaikan posisi J (5 & 7)
+        { rArm: 6, lArm: 7, q: "Huruf W", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 1 },
+        { rArm: 6, lArm: 8, q: "Huruf X", opts: ["Huruf W", "Huruf X", "Huruf Y", "Huruf Z"], ans: 1 },
+        { rArm: 7, lArm: 8, q: "Huruf Z", opts: ["Huruf Y", "Huruf Z", "Huruf B", "Huruf C"], ans: 1 }
     ];
 
     let activeQuestions = [];
@@ -376,15 +377,14 @@
             ctx.lineTo(armLength, 0);
             ctx.stroke();
 
-            // 2. Tongkat Bendera (Kelanjutan lurus dari tangan)
+            // 2. Tongkat Bendera
             ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.moveTo(armLength, 0);
             ctx.lineTo(armLength + 22, 0);
             ctx.stroke();
 
-            // 3. Kain Bendera (Sesuai contoh referensi: Bentuk kotak diagonal terbagi merah & kuning)
-            // Bagian Merah (Di sisi atas/dalam bendera)
+            // 3. Kain Bendera (Merah & Kuning)
             ctx.fillStyle = '#dc3545';
             ctx.beginPath();
             ctx.moveTo(armLength, 0);
@@ -394,7 +394,6 @@
             ctx.fill();
             ctx.fillRect(armLength, -16, 11, 16);
 
-            // Bagian Kuning (Di sisi bawah bendera)
             ctx.fillStyle = '#ffcc00';
             ctx.fillRect(armLength + 11, -16, 11, 16);
 
@@ -470,7 +469,7 @@
 
             reviewHtml += `
                 <div class="review-item">
-                    <div><b>Soal ${i + 1}:</b> Posisi Kanan (Jam ${q.rArm}), Kiri (Jam ${q.lArm})</div>
+                    <div><b>Soal ${i + 1}:</b> Posisi Kanan (Arah Jam ${q.rArm}), Kiri (Arah Jam ${q.lArm})</div>
                     <div>Jawaban Anda: <b>${userAnsText}</b></div>
                     <div>Kunci Jawaban: <span style="color: #198754; font-weight: bold;">${correctAnsText}</span></div>
                     <div>Status: ${isCorrect ? '<span class="tag-benar">✔️ BENAR</span>' : '<span class="tag-salah">❌ SALAH</span>'}</div>

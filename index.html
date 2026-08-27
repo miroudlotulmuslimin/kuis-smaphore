@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Tebak Isyarat Semaphore Pramuka - Perfect Match</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --danger-color: #dc3545;
+            --success-color: #198754;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 720px;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        #welcome-box {
+            text-align: center;
+        }
+
+        .start-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+
+        .start-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        #quiz-box, #result-box {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .timer-box {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            border: 1px solid #f5c2c7;
+        }
+
+        .canvas-container {
+            text-align: center;
+            background: #eef2f7;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #d0d7de;
+        }
+
+        canvas {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .question-text {
+            font-size: 15px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .options-list li {
+            background: #fdfdfe;
+            border: 1px solid #ced4da;
+            padding: 11px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .options-list li:hover {
+            background: #e9ecef;
+            border-color: var(--primary-color);
+        }
+
+        .options-list li.selected {
+            background: #cfe2ff;
+            border-color: var(--primary-color);
+            color: #084298;
+            font-weight: bold;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-nav:hover { opacity: 0.9; }
+
+        #result-box { text-align: center; }
+
+        .score-display {
+            font-size: 38px;
+            font-weight: bold;
+            color: #d63384;
+            background: #f8f9fa;
+            border: 2px dashed #d63384;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .review-container {
+            text-align: left;
+            margin-top: 15px;
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 8px;
+            background: #fdfdfd;
+        }
+
+        .review-item {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .tag-benar { color: var(--success-color); font-weight: bold; }
+        .tag-salah { color: var(--danger-color); font-weight: bold; }
+
+        .restart-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        .restart-btn:hover { background-color: #5c636a; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="welcome-box">
+        <h1>Kuis Tebak Isyarat Semaphore</h1>
+        <div class="subtitle">Uji kemampuan pramuka kamu sesuai standar referensi! 25 soal acak dalam waktu 2 menit.</div>
+        <button class="start-btn" onclick="startQuiz()">Mulai Kuis Sekarang</button>
+    </div>
+
+    <div id="quiz-box">
+        <div class="quiz-header">
+            <span id="question-counter">Soal 1 dari 25</span>
+            <div class="timer-box" id="timer-display">⏱️ 02:00</div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="semaphoreCanvas" width="280" height="220"></canvas>
+        </div>
+
+        <div class="question-text">Huruf apakah yang ditunjukkan oleh posisi bendera semaphore di atas?</div>
+        
+        <ul class="options-list" id="options-list"></ul>
+
+        <div class="quiz-footer">
+            <button class="btn-nav" id="prev-btn" onclick="prevQuestion()" style="visibility:hidden;">Sebelumnya</button>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn-nav" style="background-color: #6c757d;" onclick="confirmSubmit()">Selesaikan</button>
+                <button class="btn-nav" id="next-btn" onclick="nextQuestion()">Selanjutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-box">
+        <h2>Hasil Kuis Semaphore</h2>
+        <div class="score-display" id="final-score">0</div>
+        <p id="result-message">Kerja bagus!</p>
+        
+        <div style="text-align: left; font-weight: bold; color: var(--primary-color);">Review Jawaban Anda:</div>
+        <div class="review-container" id="review-container"></div>
+
+        <button class="restart-btn" onclick="resetQuiz()">Ulangi Kuis</button>
+    </div>
+</div>
+
+<script>
+    const clockToAngle = {
+        1: 300, 2: 330, 3: 0, 4: 30, 5: 60,
+        6: 90, 7: 120, 8: 150, 9: 180, 10: 210, 
+        11: 240, 12: 270
+    };
+
+    const masterSemaphore = [
+        { rArm: 6, lArm: 6, q: "Huruf A", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf D"], ans: 0 },
+        { rArm: 7, lArm: 5, q: "Huruf B", opts: ["Huruf A", "Huruf B", "Huruf C", "Huruf E"], ans: 1 },
+        { rArm: 6, lArm: 4, q: "Huruf C", opts: ["Huruf B", "Huruf C", "Huruf D", "Huruf F"], ans: 1 },
+        { rArm: 6, lArm: 3, q: "Huruf D", opts: ["Huruf A", "Huruf C", "Huruf D", "Huruf E"], ans: 2 },
+        { rArm: 6, lArm: 2, q: "Huruf E", opts: ["Huruf E", "Huruf F", "Huruf G", "Huruf H"], ans: 0 },
+        { rArm: 6, lArm: 1, q: "Huruf F", opts: ["Huruf D", "Huruf E", "Huruf F", "Huruf G"], ans: 2 },
+        { rArm: 6, lArm: 11, q: "Huruf G", opts: ["Huruf F", "Huruf G", "Huruf H", "Huruf I"], ans: 1 },
+        { rArm: 7, lArm: 3, q: "Huruf H", opts: ["Huruf H", "Huruf I", "Huruf J", "Huruf K"], ans: 0 },
+        { rArm: 5, lArm: 10, q: "Huruf I", opts: ["Huruf G", "Huruf H", "Huruf I", "Huruf J"], ans: 2 },
+        { rArm: 9, lArm: 1, q: "Huruf J", opts: ["Huruf J", "Huruf K", "Huruf L", "Huruf M"], ans: 0 },
+        { rArm: 12, lArm: 2, q: "Huruf K", opts: ["Huruf K", "Huruf L", "Huruf M", "Huruf N"], ans: 0 },
+        { rArm: 12, lArm: 3, q: "Huruf L", opts: ["Huruf K", "Huruf L", "Huruf M", "Huruf N"], ans: 1 },
+        { rArm: 12, lArm: 4, q: "Huruf M", opts: ["Huruf L", "Huruf M", "Huruf N", "Huruf O"], ans: 1 },
+        { rArm: 12, lArm: 5, q: "Huruf N", opts: ["Huruf M", "Huruf N", "Huruf O", "Huruf P"], ans: 1 },
+        { rArm: 12, lArm: 7, q: "Huruf O", opts: ["Huruf N", "Huruf O", "Huruf P", "Huruf Q"], ans: 1 },
+        { rArm: 12, lArm: 8, q: "Huruf P", opts: ["Huruf O", "Huruf P", "Huruf Q", "Huruf R"], ans: 1 },
+        { rArm: 12, lArm: 9, q: "Huruf Q", opts: ["Huruf P", "Huruf Q", "Huruf R", "Huruf S"], ans: 1 },
+        { rArm: 12, lArm: 10, q: "Huruf R", opts: ["Huruf Q", "Huruf R", "Huruf S", "Huruf T"], ans: 1 },
+        { rArm: 1, lArm: 3, q: "Huruf S", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 0 },
+        { rArm: 1, lArm: 4, q: "Huruf T", opts: ["Huruf S", "Huruf T", "Huruf U", "Huruf V"], ans: 1 },
+        { rArm: 1, lArm: 5, q: "Huruf U", opts: ["Huruf T", "Huruf U", "Huruf V", "Huruf W"], ans: 1 },
+        { rArm: 9, lArm: 5, q: "Huruf V", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 0 },
+        { rArm: 11, lArm: 8, q: "Huruf W", opts: ["Huruf V", "Huruf W", "Huruf X", "Huruf Y"], ans: 1 },
+        { rArm: 1, lArm: 9, q: "Huruf X", opts: ["Huruf W", "Huruf X", "Huruf Y", "Huruf Z"], ans: 1 },
+        { rArm: 2, lArm: 7, q: "Huruf Y", opts: ["Huruf X", "Huruf Y", "Huruf Z", "Huruf A"], ans: 1 },
+        { rArm: 11, lArm: 4, q: "Huruf Z", opts: ["Huruf Y", "Huruf Z", "Huruf B", "Huruf C"], ans: 1 }
+    ];
+
+    let activeQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let timerInterval = null;
+    let timeLeft = 120;
+    const totalQ = 25;
+
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function startQuiz() {
+        activeQuestions = shuffleArray(masterSemaphore).slice(0, totalQ);
+        currentQuestionIndex = 0;
+        userAnswers = {};
+        timeLeft = 120;
+
+        document.getElementById('welcome-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'none';
+        document.getElementById('quiz-box').style.display = 'block';
+
+        startTimer();
+        loadQuestion();
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Waktu pengerjaan 2 menit telah habis!");
+                showResult();
+                return;
+            }
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('timer-display').innerText = `⏱️ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function drawSemaphore(rArmClock, lArmClock) {
+        const canvas = document.getElementById('semaphoreCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const centerX = canvas.width / 2;
+        const centerY = 170;
+        const armLength = 50;
+
+        // Badan Stickman Pramuka
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(centerX - 9, centerY - 15, 6, 65); // Kaki Kiri
+        ctx.fillRect(centerX + 3, centerY - 15, 6, 65); // Kaki Kanan
+        ctx.fillRect(centerX - 9, centerY - 50, 18, 40); // Badan
+        ctx.beginPath();
+        ctx.arc(centerX, centerY - 62, 12, 0, Math.PI * 2); // Kepala
+        ctx.fill();
+
+        function drawArm(clockHour) {
+            let angleDeg = clockToAngle[clockHour];
+            let angleRad = (angleDeg * Math.PI) / 180;
+
+            ctx.save();
+            ctx.translate(centerX, centerY - 42);
+            ctx.rotate(angleRad);
+
+            // 1. Gambar Lengan Hitam
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(armLength, 0);
+            ctx.stroke();
+
+            // 2. Tongkat Bendera (Kelanjutan lurus dari tangan)
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(armLength, 0);
+            ctx.lineTo(armLength + 22, 0);
+            ctx.stroke();
+
+            // 3. Kain Bendera (Sesuai contoh referensi: Bentuk kotak diagonal terbagi merah & kuning)
+            // Bagian Merah (Di sisi atas/dalam bendera)
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.moveTo(armLength, 0);
+            ctx.lineTo(armLength + 16, -16);
+            ctx.lineTo(armLength + 22, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillRect(armLength, -16, 11, 16);
+
+            // Bagian Kuning (Di sisi bawah bendera)
+            ctx.fillStyle = '#ffcc00';
+            ctx.fillRect(armLength + 11, -16, 11, 16);
+
+            ctx.restore();
+        }
+
+        drawArm(rArmClock);
+        drawArm(lArmClock);
+    }
+
+    function loadQuestion() {
+        let qData = activeQuestions[currentQuestionIndex];
+        document.getElementById('question-counter').innerText = `Soal ${currentQuestionIndex + 1} dari ${totalQ}`;
+        
+        drawSemaphore(qData.rArm, qData.lArm);
+
+        let htmlOpts = '';
+        qData.opts.forEach((opt, idx) => {
+            let isSelected = userAnswers[currentQuestionIndex] === idx ? 'selected' : '';
+            htmlOpts += `<li class="${isSelected}" onclick="selectOption(${idx})">${opt}</li>`;
+        });
+        document.getElementById('options-list').innerHTML = htmlOpts;
+
+        document.getElementById('prev-btn').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+        document.getElementById('next-btn').innerText = currentQuestionIndex === totalQ - 1 ? 'Selesai' : 'Selanjutnya';
+    }
+
+    function selectOption(optIndex) {
+        userAnswers[currentQuestionIndex] = optIndex;
+        loadQuestion();
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < totalQ - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+        } else {
+            confirmSubmit();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion();
+        }
+    }
+
+    function confirmSubmit() {
+        let answeredCount = Object.keys(userAnswers).length;
+        if (answeredCount < totalQ) {
+            let confirmFinish = confirm(`Anda baru menjawab ${answeredCount} dari ${totalQ} soal. Yakin ingin mengumpulkan sekarang?`);
+            if (!confirmFinish) return;
+        }
+        showResult();
+    }
+
+    function showResult() {
+        if (timerInterval) clearInterval(timerInterval);
+
+        let correctCount = 0;
+        let reviewHtml = '';
+
+        for (let i = 0; i < totalQ; i++) {
+            let q = activeQuestions[i];
+            let userAnsIdx = userAnswers[i];
+            let isCorrect = (userAnsIdx === q.ans);
+
+            if (isCorrect) correctCount++;
+
+            let userAnsText = (userAnsIdx !== undefined) ? q.opts[userAnsIdx] : "<span style='color:orange;'>Tidak dijawab</span>";
+            let correctAnsText = q.opts[q.ans];
+
+            reviewHtml += `
+                <div class="review-item">
+                    <div><b>Soal ${i + 1}:</b> Posisi Kanan (Jam ${q.rArm}), Kiri (Jam ${q.lArm})</div>
+                    <div>Jawaban Anda: <b>${userAnsText}</b></div>
+                    <div>Kunci Jawaban: <span style="color: #198754; font-weight: bold;">${correctAnsText}</span></div>
+                    <div>Status: ${isCorrect ? '<span class="tag-benar">✔️ BENAR</span>' : '<span class="tag-salah">❌ SALAH</span>'}</div>
+                </div>
+            `;
+        }
+
+        let finalScore = (correctCount / totalQ) * 100;
+
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = `${finalScore.toFixed(0)}`;
+        document.getElementById('review-container').innerHTML = reviewHtml;
+
+        let msg = "Hebat! Terus tingkatkan kemampuan kepramukaanmu!";
+        if (finalScore >= 80) msg = "Luar biasa! Penguasaan isyarat semaphore kamu sangat baik.";
+        document.getElementById('result-message').innerText = msg;
+    }
+
+    function resetQuiz() {
+        document.getElementById('result-box').style.display = 'none';
+        document.getElementById('welcome-box').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
